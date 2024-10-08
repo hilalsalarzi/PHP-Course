@@ -49,8 +49,13 @@ $people = array(
     </style>
 </head>
 <body>
+<?php session_start(); 
+// i want to set name in session and then display it on the page
+$name=$_SESSION['name']="kamal";
+?>
 
-<h2>People Information</h2>
+<h2>People Information <?php  echo $name; ?></h2>
+
 
 <table>
     <thead>
