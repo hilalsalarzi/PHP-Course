@@ -41,7 +41,10 @@ $file1 = __DIR__ .'/app.txt';
 $parentDirectory = dirname($file1);
 echo $parentDirectory;
 
-
+touch('app1.txt');
+// unlink('app1.txt');
+//  i want to delete file 
+rmdir("new_folder");
 // echo searchInFile('app.txt', 'nffffot');
 
 // fclose($file);
