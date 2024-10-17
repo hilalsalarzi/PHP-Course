@@ -9,6 +9,7 @@ include "db.php";
     <title>Student Portal</title>
     <!-- custome css -->
 <link rel="stylesheet" href="../assets/style.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>

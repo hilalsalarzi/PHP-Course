@@ -16,6 +16,7 @@ include "include/header.php";
                     <th>Student Name</th>
                     <th>Email</th>
                     <th>Course ID</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,6 +35,11 @@ include "include/header.php";
                     <td><?php echo $name; ?></td>
                     <td><?php echo $email; ?></td>
                     <td><?php echo $course; ?></td>
+                    <td>
+                        <a href="student_update.php?id=<?php echo $student_id; ?>" class="btn btn-primary">Update</a>
+                        <a href="student_delete.php?id=<?php echo $student_id; ?>" class="btn btn-danger">Delete</a>
+                    </td>
+                    
                 </tr>
                 <?php 
                 }?>
