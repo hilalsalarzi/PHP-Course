@@ -1,18 +1,18 @@
 <?php
 include "include/header.php"; 
-// inner join
-// select students.student_name,courses.course_name from students inner join courses on students.id= courses.id
 
+// Fetching teachers from the database
+$select_teachers_query = "SELECT id, teacher_name FROM teacher";
+$teachers_result = mysqli_query($connection, $select_teachers_query);
 
 ?>
 
 <div class="container mt-5">
     <h2 class="text-center mb-4">Student Registration Form</h2>
     <div class="text-end">
-    <a href="student_view.php" class="btn btn-primary">View</a>
-
+        <a href="student_view.php" class="btn btn-primary">View</a>
     </div>
-    <form  method="post">
+    <form method="post">
         <!-- Name field -->
         <div class="mb-3">
             <label for="student_name" class="form-label">Name</label>
@@ -25,29 +25,24 @@ include "include/header.php";
             <input type="email" class="form-control" id="student_email" name="student_email" placeholder="Enter your email" required>
         </div>
 
-       
-<?php 
-// i want to select the course name from course table and display it in the form
-// select course_name from courses where id=course_id
-$select_query="select course_name,id from courses";
-$result=mysqli_query($connection,$select_query);
-?>
+        <!-- Teacher field -->
+        <div class="mb-3">
+            <label for="teacher_name" class="form-label">Teacher Name</label>
+            <select class="form-select" id="teacher_id" name="teacher_id" required>
+                <option value="">Select Teacher</option>
+                <?php while($row = mysqli_fetch_assoc($teachers_result)) { ?>
+                    <option value="<?php echo $row['id']; ?>"><?php echo $row['teacher_name']; ?></option>
+                <?php } ?>
+            </select>
+        </div>
+
         <!-- Course name field -->
         <div class="mb-3">
             <label for="course_name" class="form-label">Course Name</label>
             <select class="form-select" id="course_name" name="course_name" required>
                 <option value="">Select course</option>
-                <?php 
-                while($row=mysqli_fetch_assoc($result)){
-                ?>
-                <option value="<?php echo $row['id']; ?>"><?php echo $row['course_name']; ?></option>
-                <?php 
-                }
-                ?>
             </select>
         </div>
-
-
 
         <!-- Submit button -->
         <div class="text-center">
@@ -55,27 +50,24 @@ $result=mysqli_query($connection,$select_query);
         </div>
     </form>
 </div>
-<!-- now we will put if asset function  -->
- <?php
- if(isset($_POST['submit'])){
-    $name=$_POST['student_name'];
-    $email=$_POST['student_email'];
-    $course=$_POST['course_name'];
-    $insert_query="insert into students(student_name,student_email,course_id) values('$name','$email','$course')";
-    $resultinsert=mysqli_query($connection,$insert_query);
-    if($resultinsert){
-        echo ' <div class="alert alert-primary" role="alert">
-  A simple primary alert—check it out!
-</div>';
-        // header("Location:student_registrationrrr.php");
 
- }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#teacher_id').change(function(){
+            var teacherId = $(this).val();
+            
+            // AJAX request to fetch courses for the selected teacher
+            $.ajax({
+                url: 'get_courses.php', // PHP file to handle the request
+                type: 'POST',
+                data: {teacher_id: teacherId},
+                success: function(response){
+                    $('#course_name').html(response); // Update the course dropdown
+                }
+            });
+        });
+    });
+</script>
 
-     ?>
-    
-     <?php
- }
- ?>
-<?php 
-include "include/footer.php";
-?>
+<?php include "include/footer.php"; ?>
